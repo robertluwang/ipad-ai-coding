@@ -41,9 +41,17 @@ fi
 echo "🔄 Updating APT package lists..."
 apt-get update
 
-echo "📦 Installing core utilities (network-cmds, curl, wget, git, htop, zip, unzip)..."
+echo "📦 Installing core utilities (network-cmds, curl, wget, git, htop, zip, unzip, vim)..."
 # Using -y to automatically answer yes to prompts
-apt-get install -y network-cmds curl wget git htop zip unzip
+apt-get install -y network-cmds curl wget git htop zip unzip vim
+
+echo "📝 Configuring Vim for better defaults (pasting, backspace)..."
+cat << 'VIMRC' > ~/.vimrc
+set nocompatible
+set backspace=indent,eol,start
+set pastetoggle=<F2>
+syntax on
+VIMRC
 
 if [ $? -eq 0 ]; then
     echo "✅ Essential tools installed successfully."

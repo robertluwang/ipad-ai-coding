@@ -32,6 +32,14 @@ cd scripts/
 ./bootstrap_python.sh <YOUR_IPAD_IP>  # Sets up ~/.local/bin PATH for the mobile user
 ```
 
+### Troubleshooting SSH
+
+If you cannot connect to the iPad, open the local terminal app on the iPad (e.g., NewTerm 2) and manually restart the SSH daemon:
+```bash
+su root
+launchctl kickstart -k system/com.openssh.sshd
+```
+
 ## Examples & Use Cases
 
 This repository includes real-world use cases to demonstrate the capabilities of your newly minted AI Box.

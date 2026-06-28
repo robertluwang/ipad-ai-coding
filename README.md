@@ -45,6 +45,7 @@ launchctl kickstart -k system/com.openssh.sshd
 This repository includes real-world use cases to demonstrate the capabilities of your newly minted AI Box.
 
 - **[Gemini Chat Native UI App](./examples/gemini-chat-app):** A complete example demonstrating how to cross-compile a pure programmatic Swift UI app from your laptop, deploying it via shell scripts (`deploy.sh`), and pointing it at a local LiteLLM Vertex gateway VM.
+- **[Python Chat CLI](./examples/chat-py-cli):** A robust Python command-line chat interface (`chat_cli.py`) that utilizes the LiteLLM gateway to communicate with Vertex AI Gemini. The setup scripts automatically configure an SSH tunnel in `~/.bashrc` to securely route local port 4000 traffic directly to your LiteLLM server.
 
 ## Maintenance
 

@@ -52,6 +52,26 @@ else
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 fi
 
+# Add LiteLLM SSH tunnel configuration
+if grep -q 'LITELLM_URL' ~/.bashrc; then
+    echo "  -> LiteLLM SSH tunnel configuration already exists in ~/.bashrc."
+else
+    echo "  -> Adding LiteLLM SSH tunnel configuration to ~/.bashrc."
+    cat << 'BASHRC_EOF' >> ~/.bashrc
+
+# LiteLLM Gateway Configuration
+export LITELLM_MASTER_KEY="<key>"
+export LITELLM_URL="http://127.0.0.1:4000/v1/chat/completions"
+export LITELLM_MODEL="gemini-flash"
+
+# Check if SSH is already running before starting the tunnel
+if ! pgrep -f "L 4000:127.0.0.1:4000" > /dev/null; then
+    echo "Starting LiteLLM tunnel..."
+    ssh -i ~/.ssh/<private_key> -f -N -L 4000:127.0.0.1:4000 ubuntu@<litellm_ip>
+fi
+BASHRC_EOF
+fi
+
 # Create local bin directory just in case
 mkdir -p ~/.local/bin
 

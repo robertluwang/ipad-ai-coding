@@ -29,11 +29,22 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
+read -p "Proceed to install essential system tools (curl, git, htop, etc.) as 'root'? (y/n) " -n 1 -r
+echo ""
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    # 2. Install Tools
+    "${SCRIPTS_DIR}/install_tools.sh" "${IPAD_IP}"
+else
+    echo "Skipping tool installation."
+fi
+
+echo ""
 read -p "Proceed to configure Python environment for 'mobile' user? (y/n) " -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    # 2. Bootstrap Python
+    # 3. Bootstrap Python
     "${SCRIPTS_DIR}/bootstrap_python.sh" "${IPAD_IP}"
 else
     echo "Skipping Python setup."

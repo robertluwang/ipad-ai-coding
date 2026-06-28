@@ -28,6 +28,7 @@ cd scripts/
 
 # Or run individual tools:
 ./check_connection.sh <YOUR_IPAD_IP>  # Diagnoses SSH and prints system info
+./install_tools.sh <YOUR_IPAD_IP>     # Installs curl, git, htop, network-cmds, zip via apt
 ./bootstrap_python.sh <YOUR_IPAD_IP>  # Sets up ~/.local/bin PATH for the mobile user
 ```
 

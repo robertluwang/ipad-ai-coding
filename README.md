@@ -16,6 +16,21 @@ Older iPads often suffer from lack of modern app support, but their Darwin-based
 
 Check out the comprehensive **[Master Guide (design.md)](./design.md)** for step-by-step instructions on setting up your environment, managing the network gateway, and preparing package managers.
 
+### Quick Setup Scripts
+
+We have provided utility scripts in the `scripts/` directory to help you quickly verify connections and configure the environment on your iPad from your laptop.
+
+```bash
+cd scripts/
+
+# Run the interactive quick setup wrapper
+./quick_setup.sh <YOUR_IPAD_IP>
+
+# Or run individual tools:
+./check_connection.sh <YOUR_IPAD_IP>  # Diagnoses SSH and prints system info
+./bootstrap_python.sh <YOUR_IPAD_IP>  # Sets up ~/.local/bin PATH for the mobile user
+```
+
 ## Examples & Use Cases
 
 This repository includes real-world use cases to demonstrate the capabilities of your newly minted AI Box.

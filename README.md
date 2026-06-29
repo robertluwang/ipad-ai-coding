@@ -45,7 +45,49 @@ launchctl kickstart -k system/com.openssh.sshd
 This repository includes real-world use cases to demonstrate the capabilities of your newly minted AI Box.
 
 - **[Gemini Chat Native UI App](./examples/gemini-chat-app):** A complete example demonstrating how to cross-compile a pure programmatic Swift UI app from your laptop, deploying it via shell scripts (`deploy.sh`), and pointing it at a local LiteLLM Vertex gateway VM.
-- **[Python Chat CLI](./examples/chat-py-cli):** A robust Python command-line chat interface (`chat_cli.py`) that utilizes the LiteLLM gateway to communicate with Vertex AI Gemini. The setup scripts automatically configure an SSH tunnel in `~/.bashrc` to securely route local port 4000 traffic directly to your LiteLLM server.
+
+## Running AI Agents & CLI Tools on iPad
+
+To fully utilize the iPad as an AI workstation, you can run standalone AI scripts like `chat_cli.py` or `edge_agent.py` directly on the device. Because the iPad lacks the compute to run modern LLMs locally, we use an SSH tunnel to offload inference to a remote LiteLLM Gateway.
+
+### Setting up the LiteLLM Tunnel
+
+Since the iPad typically operates on dynamic IP addresses or Wi-Fi without a public IP, we establish an outbound SSH tunnel to your remote gateway VM. This securely forwards local traffic on port `4000` to the remote LiteLLM API.
+
+Create or edit `~/.env` on your iPad:
+
+```bash
+export LITELLM_MASTER_KEY=<key>
+export LITELLM_URL="http://127.0.0.1:4000/v1/chat/completions"
+export LITELLM_MODEL="gemini-flash"
+
+# Check if SSH is already running before starting the tunnel
+if ! pgrep -f "L 4000:127.0.0.1:4000" > /dev/null; then
+    echo "Starting LiteLLM tunnel..."
+    ssh -i ~/.ssh/<private_key> -f -N -L 4000:127.0.0.1:4000 <vm_user>@<vm_ip>
+fi
+```
+
+Add the following to your `~/.bashrc` (or `~/.profile`) to automatically source it upon login:
+
+```bash
+echo "source ~/.env" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Running Python Chat CLI (`chat_cli.py`)
+Clone your `chat-py-cli` repository to the iPad, install its requirements, and run it:
+```bash
+python3 chat_cli.py
+```
+This gives you an interactive, ChatGPT-style terminal interface powered by your remote gateway, right on your iPad.
+
+### Running Autonomous Edge Agent (`edge_agent.py`)
+Similarly, clone your `edge-agent` repository:
+```bash
+python3 edge_agent.py "Check the system uptime and free memory, then save the report to system_report.txt"
+```
+The edge agent will autonomously execute commands, read/write files locally on the iPad, and use the LiteLLM gateway for its reasoning loop.
 
 ## Maintenance
 

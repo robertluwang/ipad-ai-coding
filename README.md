@@ -54,18 +54,11 @@ To fully utilize the iPad as an AI workstation, you can run standalone AI script
 
 Since the iPad typically operates on dynamic IP addresses or Wi-Fi without a public IP, we establish an outbound SSH tunnel to your remote gateway VM. This securely forwards local traffic on port `4000` to the remote LiteLLM API.
 
-Create or edit `~/.env` on your iPad:
+Rename the provided `.env.template` to `~/.env` on your iPad, fill in your specific values, and source it for your LiteLLM tunnel setup.
 
 ```bash
-export LITELLM_MASTER_KEY=<key>
-export LITELLM_URL="http://127.0.0.1:4000/v1/chat/completions"
-export LITELLM_MODEL="gemini-flash"
-
-# Check if SSH is already running before starting the tunnel
-if ! pgrep -f "L 4000:127.0.0.1:4000" > /dev/null; then
-    echo "Starting LiteLLM tunnel..."
-    ssh -i ~/.ssh/<private_key> -f -N -L 4000:127.0.0.1:4000 <vm_user>@<vm_ip>
-fi
+cp .env.template ~/.env
+nano ~/.env # add your keys, IP, user, and SSH key
 ```
 
 Add the following to your `~/.bashrc` (or `~/.profile`) to automatically source it upon login:
